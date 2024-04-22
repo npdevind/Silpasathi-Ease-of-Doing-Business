@@ -101,67 +101,70 @@ const AllServices = () => {
       />
 
       <div className="row">
-        <div className="card p-4 service-table">
-          <table className="table caption-top">
-            <caption>
-              <div className="row ">
-                <div className="col-md-auto me-auto">
-                  Department/Directorate/District Administration : <b>{selectDept ? selectDept : "All Department"}</b>
+        <div className="card service-table">
+          <div className="card-body">
+            <table className="table caption-top">
+              <caption>
+                <div className="row ">
+                  <div className="col-md-auto me-auto">
+                    Department/Directorate/District Administration : <b>{selectDept ? selectDept : "All Department"}</b>
+                  </div>
+                  <div className="col-md-auto ms-auto">
+                    <ServiceFilterSearch searchService={searchService} setSearchService={setSearchService} msg={msg} />
+                  </div>
                 </div>
-                <div className="col-md-auto ms-auto">
-                  <ServiceFilterSearch searchService={searchService} setSearchService={setSearchService} msg={msg} />
-                </div>
-              </div>
-            </caption>
-            <thead>
-              <tr>
-                <th style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word", width: "1%" }}>#</th>
-                <th style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word", width: "50%" }}>Service Name</th>
-                <th style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word", width: "5%" }}>User Manual</th>
-              </tr>
-            </thead>
+              </caption>
+              <thead>
+                <tr>
+                  <th style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word", width: "1%" }}>#</th>
+                  <th style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word", width: "50%" }}>Service Name</th>
+                  <th style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word", width: "5%" }}>User Manual</th>
+                </tr>
+              </thead>
 
-            {serviceError && <ErrorAlert error={serviceError} />}
-            {!serviceData && serviceLoading && <LoadingSpinner />}
-            <tbody>
-              {serviceData &&
-                serviceData?.data?.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <th scope="row">
-                        <div className="form-check">
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="service-name"
-                            checked={checkedItems.includes(item.service_name)}
-                            onChange={() => handleCheckboxChange(item.service_name)}
-                          />
-                        </div>
-                      </th>
-                      <td>
-                        {item.service_name} <small className="text-danger">(WBRTPS Timeline: Real Time)</small>
-                      </td>
-                      <td>
-                        <i className="bi bi-file-earmark-text text-success"></i>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-          <Pagination data={serviceData} onLimitChange={handleLimit} limit={searchParams.get("limit")} />
+              {serviceError && <ErrorAlert error={serviceError} />}
+              {!serviceData && serviceLoading && <LoadingSpinner />}
+              <tbody>
+                {serviceData &&
+                  serviceData?.data?.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <th scope="row">
+                          <div className="form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="service-name"
+                              checked={checkedItems.includes(item.service_name + "_" + item.service_id)}
+                              onChange={() => handleCheckboxChange(item.service_name + "_" + item.service_id)}
+                            />
+                          </div>
+                        </th>
+                        <td>
+                          {item.service_name} <small className="text-danger">(WBRTPS Timeline: Real Time)</small>
+                        </td>
+                        <td>
+                          <i className="bi bi-file-earmark-text text-success"></i>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+            <Pagination data={serviceData} onLimitChange={handleLimit} limit={searchParams.get("limit")} />
 
-          {checkedItems.length > 0 && (
-            <>
-              <hr />
-              <SelectedServices checkedItems={checkedItems} />
-            </>
-          )}
-
-          {/* <a href="#" title="Create CAF" className="btn btn-warning btn-lg float-end">
-          Create CAF
-        </a> */}
+            {checkedItems.length > 0 && (
+              <>
+                <hr />
+                <SelectedServices checkedItems={checkedItems} />
+              </>
+            )}
+          </div>
+          <div className="card-footer border-0 bg-white">
+            <Link title="Create CAF" className="btn btn-warning btn-ml float-end">
+              Create CAF
+            </Link>
+          </div>
         </div>
       </div>
     </>

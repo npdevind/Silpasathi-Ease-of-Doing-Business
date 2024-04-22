@@ -9,15 +9,21 @@ const SelectedServices = ({ checkedItems }) => {
       <div className="row">
         {checkedItems.map((item, index) => {
           return (
-            <div className="col-md-4" key={index}>
-              <OverlayTrigger placement="top" delay={{ show: 50, hide: 50 }} overlay={renderTooltip(item)}>
-                <div
-                  className="tag"
-                  style={{ whiteSpace: "nowrap", width: "20rem", overflow: "hidden", textOverflow: "ellipsis", marginBottom: "-5px" }}
-                >
-                  <span>{item}</span>
-                </div>
-              </OverlayTrigger>
+            <div className="col-md-4 mb-3" key={index}>
+              <div className="d-flex">
+                <OverlayTrigger placement="top" delay={{ show: 50, hide: 50 }} overlay={renderTooltip(item)}>
+                  <div
+                    className="tag"
+                    style={{ whiteSpace: "nowrap", width: "20rem", overflow: "hidden", textOverflow: "ellipsis", marginBottom: "-5px" }}
+                  >
+                    <span>{item}</span>
+                  </div>
+                </OverlayTrigger>
+
+                <button className="btn btn-sm text-danger">
+                  <i className="bi bi-eraser-fill"></i>
+                </button>
+              </div>
             </div>
           );
         })}
