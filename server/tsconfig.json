@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es2016",
+        "module": "commonjs",
+        "sourceMap": true,
+        "rootDir": "./",
+        "moduleResolution": "node",
+        "outDir": "./build",
+        "esModuleInterop": true,
+        "lib": ["esnext"],
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "typeRoots": ["./node_modules/@types", "./types"],
+        "noImplicitAny": false,
+        "types": ["index"]
+    },
+    "include": ["**/*.ts", "types", "./**/types/*"]
+}

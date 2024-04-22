@@ -1,0 +1,8 @@
+DB_USER = "postgres" 
+DB_HOST = "172.20.176.46"
+DB_DATABASE = "eodbosw"
+DB_PASSWORD = "postgres"
+DB_PORT = 5432
+
+PORT = "4000"
+

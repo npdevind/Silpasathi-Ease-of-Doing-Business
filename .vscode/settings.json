@@ -1,0 +1,25 @@
+{
+    "editor.formatOnSave": true, // format code when you hit save
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "git.mergeEditor": false,
+
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#2A3002",
+        "titleBar.activeBackground": "#3B4403",
+        "titleBar.activeForeground": "#F8FDD8"
+    },
+
+    "cSpell.words": [
+        "Cascader",
+        "directoarte",
+        "eodb",
+        "Eservice",
+        "maptrackuser",
+        "Offcanvas",
+        "silpasathi",
+        "tanstack",
+        "toastify"
+    ],
+    "prettier.tabWidth": 4
+}
