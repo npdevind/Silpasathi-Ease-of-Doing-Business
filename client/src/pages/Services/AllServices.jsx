@@ -24,6 +24,8 @@ const AllServices = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const [checkedItems, setCheckedItems] = useState([]);
+
   const handleLimit = (val) => {
     searchParams.set("limit", val);
     setSearchParams(searchParams);
@@ -72,6 +74,19 @@ const AllServices = () => {
     }
   }, [selectDept, searchService, refetch]);
 
+  const handleCheckboxChange = (option) => {
+    const currentIndex = checkedItems.indexOf(option);
+    const newCheckedItems = [...checkedItems];
+
+    if (currentIndex === -1) {
+      newCheckedItems.push(option);
+    } else {
+      newCheckedItems.splice(currentIndex, 1);
+    }
+
+    setCheckedItems(newCheckedItems);
+  };
+
   return (
     <>
       <UnitSelect />
@@ -106,16 +121,22 @@ const AllServices = () => {
               </tr>
             </thead>
 
+            {serviceError && <ErrorAlert error={serviceError} />}
+            {!serviceData && serviceLoading && <LoadingSpinner />}
             <tbody>
-              {serviceError && <ErrorAlert error={serviceError} />}
-              {!serviceData && serviceLoading && <LoadingSpinner />}
               {serviceData &&
                 serviceData?.data?.map((item, index) => {
                   return (
                     <tr key={index}>
                       <th scope="row">
                         <div className="form-check">
-                          <input type="checkbox" className="form-check-input" id="service-name" />
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id="service-name"
+                            checked={checkedItems.includes(item.service_name)}
+                            onChange={() => handleCheckboxChange(item.service_name)}
+                          />
                         </div>
                       </th>
                       <td>
@@ -131,8 +152,16 @@ const AllServices = () => {
           </table>
           <Pagination data={serviceData} onLimitChange={handleLimit} limit={searchParams.get("limit")} />
 
-          <hr />
-          <SelectedServices />
+          {checkedItems.length > 0 && (
+            <>
+              <hr />
+              <SelectedServices checkedItems={checkedItems} />
+            </>
+          )}
+
+          {/* <a href="#" title="Create CAF" className="btn btn-warning btn-lg float-end">
+          Create CAF
+        </a> */}
         </div>
       </div>
     </>

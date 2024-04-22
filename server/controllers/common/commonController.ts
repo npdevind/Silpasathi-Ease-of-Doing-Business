@@ -151,7 +151,7 @@ export const getServiceList: Controller = async (req, res) => {
         const whereArray: any = [];
         if (service_name) {
             whereArray.push({
-                item: `service_name like '%${service_name}%'`,
+                item: `UPPER(service_name) like  '%' || UPPER('${service_name}') || '%'`,
             });
         }
         if (deptId) {
@@ -163,7 +163,7 @@ export const getServiceList: Controller = async (req, res) => {
         const getDetailsArrayProps = [
             {
                 fields: `service_id, service_name`,
-                whereAddOn: whereArray.length > 0 ? whereArray : "",
+                whereAddOn: whereArray.length > 0 ? whereArray : [],
                 orderBy: [{ item: "service_name", order: "ASC" }],
                 isPagination: [{ status: listing === "true" ? true : false, isPaginationState: req.query }],
             },

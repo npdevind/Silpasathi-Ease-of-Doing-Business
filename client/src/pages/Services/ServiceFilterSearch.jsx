@@ -14,7 +14,7 @@ const ServiceFilterSearch = ({ searchService, setSearchService, msg }) => {
                 setSearchService(e.target.value);
               }}
             />
-            <span className="text-muted ">{msg}</span>
+            {searchService && searchService.length < 3 && <span className="text-danger opacity-75 ">{msg}</span>}
           </div>
         </div>
       </div>

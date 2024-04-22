@@ -15,6 +15,7 @@
     "react/prop-types": "off",
     "react-hooks/exhaustive-deps": "off",
     "eqeqeq": "off",
-    "default-case": "off"
+    "default-case": "off",
+    "no-lone-blocks": "off"
   }
 }
