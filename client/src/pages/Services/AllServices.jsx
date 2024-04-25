@@ -116,12 +116,12 @@ const AllServices = () => {
     mutate(
       { url: `/create-new-caf`, body: formData },
       {
-        onSuccess: async (data, variables, context) => {
+        onSuccess(data, variables, context) {
           toast.success(data.message);
           navigate("/dashboard");
-          await query.invalidateQueries({ queryKey: ["get-est-service-info"] });
+          query.removeQueries({ queryKey: ["get-est-service-info"] });
         },
-        onError: (error, variables, context) => {
+        onError(error, variables, context) {
           toast.error(error.message);
         },
       }
