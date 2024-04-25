@@ -90,7 +90,9 @@ const OnGoingSelectedServices = () => {
                                   <span className="lh-1 fst-normal ">{_item.service_name}</span>
 
                                   <br />
-                                  <small className="text-danger lh-1 font-monospace text-uppercase">{_item.rtps_timelines ? `(WBRTPS Timeline: ${_item.rtps_timelines})` : ""}</small>
+                                  <small className="text-danger lh-1 font-monospace text-uppercase">
+                                    {_item.rtps_timelines ? `(WBRTPS Timeline: ${_item.rtps_timelines})` : ""}
+                                  </small>
                                 </td>
                                 <td>
                                   <span className="badge rounded-pill bg-info mb-1">{_item.status_title}</span>

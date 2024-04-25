@@ -168,7 +168,7 @@ export const getServiceList: Controller = async (req, res) => {
                 isPagination: [{ status: listing === "true" ? true : false, isPaginationState: req.query }],
             },
         ];
-        const data = await eodbServiceMasterModel.getServiceList({ propsArray: getDetailsArrayProps });
+        const data = await eodbServiceMasterModel.getDetails({ propsArray: getDetailsArrayProps });
         res.json(data);
     } catch (error: any) {
         res.status(400).json({ message: error.message });

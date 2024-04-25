@@ -20,9 +20,9 @@ const SelectedServices = ({ checkedItems }) => {
                   </div>
                 </OverlayTrigger>
 
-                <button className="btn btn-sm text-danger">
+                {/* <button className="btn btn-sm text-danger">
                   <i className="bi bi-eraser-fill"></i>
-                </button>
+                </button> */}
               </div>
             </div>
           );

@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import router from "./router";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./scss/app.scss";
 // import "./scss/global.scss";
 
@@ -23,7 +23,7 @@ const queryClient = new QueryClient({
       refetchInterval: false,
       refetchOnMount: false,
       refetchOnReconnect: true,
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
       retry: false,
       retryOnMount: false,
       cacheTime: 0,

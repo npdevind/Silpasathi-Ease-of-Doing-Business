@@ -3,12 +3,6 @@ import react from "@vitejs/plugin-react";
 import eslintPlugin from "vite-plugin-eslint";
 import dotenv from "dotenv";
 
-// https://vitejs.dev/config/
-// export default defineConfig({
-//   plugins: [react(), eslintPlugin()],
-//   resolve: { alias: { "~bootstrap": "bootstrap" } },
-// });
-
 const dotEnvReplacement = (env) => {
   const replacement = Object.entries(env).reduce((obj, [key, val]) => {
     obj[`process.env.${key}`] = `"${val}"`;

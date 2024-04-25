@@ -256,7 +256,7 @@ export const getEstServiceInfo: Controller = async (req, res) => {
                 JoinTables: [
                     {
                         status: true,
-                        joinFields: `A.service_id,A.eodb_app_id,A.est_id,A.caf_id_no,A.caf_id,A.legacy_application_id,A.redirect_url,A.app_submission_date,A.created_date,A.current_status,A.caf_status, sm.service_name, sm.service_type,dm.dept_id,dm.department_name`,
+                        joinFields: `DISTINCT on (A.caf_id_no) A.service_id,A.eodb_app_id,A.est_id,A.caf_id_no,A.caf_id,A.legacy_application_id,A.redirect_url,A.app_submission_date,A.created_date,A.current_status,A.caf_status, sm.service_name, sm.service_type,dm.dept_id,dm.department_name`,
                         joinWhereAddOn: [
                             {
                                 item: `A.uid = ${req.user?.uid}`,

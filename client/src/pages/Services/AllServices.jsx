@@ -1,18 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetcher } from "./../../utils/index";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetcher, updater } from "./../../utils/index";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+
 import ErrorAlert from "./../../components/ErrorAlert";
 import LoadingSpinner from "./../../components/LoadingSpinner";
-import { Link, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ServiceFilterSearch from "./ServiceFilterSearch";
 import Pagination from "../../components/Pagination";
 import UnitSelect from "../../features/services_for_caf/UnitSelect";
 import DepartmentSelect from "../../features/services_for_caf/DepartmentSelect";
 import SelectedServices from "../../features/services_for_caf/SelectedServices";
+import { toast } from "react-toastify";
 
 const AllServices = () => {
   const [selectDept, setSelectDept] = useState();
@@ -25,6 +26,7 @@ const AllServices = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [checkedItems, setCheckedItems] = useState([]);
+  const [checkedItemsIds, setCheckedItemsIds] = useState([]);
 
   const handleLimit = (val) => {
     searchParams.set("limit", val);
@@ -63,10 +65,12 @@ const AllServices = () => {
     if (searchService) {
       if (searchService.length >= 3) {
         searchParams.set("service_name", searchService);
+        searchParams.set("page", 1);
         setSearchParams(searchParams);
         refetch();
       } else {
         searchParams.set("service_name", "");
+        searchParams.set("page", "");
         setSearchParams(searchParams);
         refetch();
         setMsg("Please enter more then three character.");
@@ -74,7 +78,7 @@ const AllServices = () => {
     }
   }, [selectDept, searchService, refetch]);
 
-  const handleCheckboxChange = (option) => {
+  const handleCheckboxChange = (option, optionId) => {
     const currentIndex = checkedItems.indexOf(option);
     const newCheckedItems = [...checkedItems];
 
@@ -85,12 +89,48 @@ const AllServices = () => {
     }
 
     setCheckedItems(newCheckedItems);
+
+    const currentIdIndex = checkedItemsIds.indexOf(optionId);
+    const newCheckedItemsIds = [...checkedItemsIds];
+
+    if (currentIdIndex === -1) {
+      newCheckedItemsIds.push(optionId);
+    } else {
+      newCheckedItemsIds.splice(currentIdIndex, 1);
+    }
+    setCheckedItemsIds(newCheckedItemsIds);
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: ({ body, method, url }) => updater({ url: url, method: method || "POST", body: body }),
+  });
+
+  const query = useQueryClient();
+  const navigate = useNavigate();
+  const handelCreateCaf = () => {
+    if (checkedItems.length === 0 && checkedItemsIds.length === 0) toast.error("Please select services");
+    const formData = {
+      serviceId: checkedItemsIds,
+      unitId: 0,
+    };
+    mutate(
+      { url: `/create-new-caf`, body: formData },
+      {
+        onSuccess: async (data, variables, context) => {
+          toast.success(data.message);
+          navigate("/dashboard");
+          await query.invalidateQueries({ queryKey: ["get-est-service-info"] });
+        },
+        onError: (error, variables, context) => {
+          toast.error(error.message);
+        },
+      }
+    );
   };
 
   return (
     <>
       <UnitSelect />
-
       <DepartmentSelect
         setSelectDeptId={setSelectDeptId}
         selectDept={selectDept}
@@ -99,7 +139,8 @@ const AllServices = () => {
         departmentError={departmentError}
         departmentLoading={departmentLoading}
       />
-
+      {serviceError && <ErrorAlert error={serviceError} />}
+      {!serviceData && serviceLoading && <LoadingSpinner />}
       <div className="row">
         <div className="card service-table">
           <div className="card-body">
@@ -114,6 +155,7 @@ const AllServices = () => {
                   </div>
                 </div>
               </caption>
+
               <thead>
                 <tr>
                   <th style={{ whiteSpace: "pre-wrap", overflowWrap: "break-word", width: "1%" }}>#</th>
@@ -122,8 +164,6 @@ const AllServices = () => {
                 </tr>
               </thead>
 
-              {serviceError && <ErrorAlert error={serviceError} />}
-              {!serviceData && serviceLoading && <LoadingSpinner />}
               <tbody>
                 {serviceData &&
                   serviceData?.data?.map((item, index) => {
@@ -135,8 +175,12 @@ const AllServices = () => {
                               type="checkbox"
                               className="form-check-input"
                               id="service-name"
-                              checked={checkedItems.includes(item.service_name + "_" + item.service_id)}
-                              onChange={() => handleCheckboxChange(item.service_name + "_" + item.service_id)}
+                              checked={checkedItemsIds.includes(item.service_id)}
+                              onClick={() => {
+                                checkedItems.includes(item.service_name);
+                                checkedItemsIds.includes(item.service_id);
+                              }}
+                              onChange={() => handleCheckboxChange(item.service_name, item.service_id)}
                             />
                           </div>
                         </th>
@@ -161,9 +205,9 @@ const AllServices = () => {
             )}
           </div>
           <div className="card-footer border-0 bg-white">
-            <Link title="Create CAF" className="btn btn-warning btn-ml float-end">
-              Create CAF
-            </Link>
+            <button title="Create CAF" disabled={isPending} className="btn btn-warning btn-ml float-end" onClick={() => handelCreateCaf()}>
+              {isPending && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Create CAF
+            </button>
           </div>
         </div>
       </div>
