@@ -6,6 +6,8 @@ import webRouter from "./routes/web";
 import * as path from "path";
 import morgan from "morgan";
 import cors from "cors";
+import swaggerUI from "swagger-ui-express";
+import { swaggerSpec } from "./swagger/swaggerConfig";
 
 const app: Application = express();
 
@@ -23,6 +25,9 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use(morgan("common"));
 
+// Serve Swagger UI
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
 // use the api routes to /api
 app.use("/api/v1", apiRouter);
 
@@ -31,12 +36,12 @@ app.use(webRouter);
 
 // starting the server
 app.listen(PORT, () => {
-  console.log(`Server is Listening on: ${PORT}`);
+    console.log(`Server is Listening on: ${PORT}`);
 });
 
 process.on("uncaughtException", (err) => {
-  console.log(`Uncaught Exception: ${err.message}`);
+    console.log(`Uncaught Exception: ${err.message}`);
 });
 process.on("unhandledRejection", (err: Error, promise) => {
-  console.log("Unhandled rejection at ", promise, `reason: ${err.message}`);
+    console.log("Unhandled rejection at ", promise, `reason: ${err.message}`);
 });

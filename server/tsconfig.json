@@ -13,7 +13,9 @@
         "skipLibCheck": true,
         "typeRoots": ["./node_modules/@types", "./types"],
         "noImplicitAny": false,
-        "types": ["index"]
+        "types": ["index"],
+
+        "resolveJsonModule": true
     },
     "include": ["**/*.ts", "types", "./**/types/*"]
 }

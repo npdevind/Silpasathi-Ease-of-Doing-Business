@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "serve": "PORT=4001 serve dist",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -47,6 +48,7 @@
     "eslint-plugin-react-refresh": "^0.4.5",
     "sass": "^1.70.0",
     "vite": "^5.0.8",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-pwa": "^0.20.0"
   }
 }

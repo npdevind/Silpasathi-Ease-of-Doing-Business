@@ -1,0 +1,15 @@
+{
+  "info": {
+    "title": "Silpasathi-Ease-of-Doing-Business",
+    "description": "API Documentation Of Silpasathi",
+    "version": "1.0.0"
+  },
+  "host": "localhost:4000/api/v1",
+  "swagger": "2.0",
+  "paths": {},
+  "definitions": {},
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}
